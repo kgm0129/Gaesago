@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: 'svc.sel5.cloudtype.app',
   user: 'root',
   password: 'kk00998877.',
   database: 'store_inventory'
