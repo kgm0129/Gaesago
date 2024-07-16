@@ -17,15 +17,7 @@
     <div id="items-container"></div>
 
     <div class="form-container">
-        <h2>물품 추가/수정</h2>
-        <form id="item-form">
-            <input type="hidden" id="item-id">
-            <input type="text" id="name" placeholder="이름" required>
-            <input type="number" id="price" placeholder="가격" required>
-            <input type="number" id="stock" placeholder="재고량" required>
-            <input type="hidden" id="category" value="zelly">
-            <button type="submit">저장</button>
-        </form>
+        <a href="item-form.html?category=zelly">물품 추가</a>
     </div>
 
     <script>
@@ -45,31 +37,6 @@
             `).join('');
         }
 
-        document.getElementById('item-form').addEventListener('submit', async event => {
-            event.preventDefault();
-            const id = document.getElementById('item-id').value;
-            const name = document.getElementById('name').value;
-            const price = document.getElementById('price').value;
-            const stock = document.getElementById('stock').value;
-            const category = document.getElementById('category').value;
-
-            const method = id ? 'PUT' : 'POST';
-            const url = id ? `/api/items/${id}` : '/api/items';
-            const res = await fetch(url, {
-                method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, price, stock, category })
-            });
-
-            if (res.ok) {
-                fetchItems();
-                document.getElementById('item-form').reset();
-                document.getElementById('item-id').value = '';
-            } else {
-                alert('물품 저장 중 오류가 발생했습니다.');
-            }
-        });
-
         async function deleteItem(id) {
             const res = await fetch(`/api/items/${id}`, { method: 'DELETE' });
             if (res.ok) fetchItems();
@@ -77,10 +44,7 @@
         }
 
         function editItem(id, name, price, stock) {
-            document.getElementById('item-id').value = id;
-            document.getElementById('name').value = name;
-            document.getElementById('price').value = price;
-            document.getElementById('stock').value = stock;
+            window.location.href = `item-form.html?category=zelly&id=${id}&name=${name}&price=${price}&stock=${stock}`;
         }
 
         fetchItems();

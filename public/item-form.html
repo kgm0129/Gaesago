@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>물품 추가/수정</title>
+    <link rel="stylesheet" href="design.css" type="text/css">
+</head>
+<body>
+    <div class="header">
+        <a href="index.html"><img src="./디자인/shop.png" alt="shop icon"></a>
+        <p class="header-title">물품 추가/수정</p>
+    </div>
+    <div class="form-container">
+        <h2>물품 추가/수정</h2>
+        <form id="item-form">
+            <input type="hidden" id="item-id">
+            <input type="text" id="name" placeholder="이름" required>
+            <input type="number" id="price" placeholder="가격" required>
+            <input type="number" id="stock" placeholder="재고량" required>
+            <input type="hidden" id="category">
+            <button type="submit">저장</button>
+        </form>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        const id = urlParams.get('id');
+        const name = urlParams.get('name');
+        const price = urlParams.get('price');
+        const stock = urlParams.get('stock');
+
+        document.getElementById('category').value = category;
+        if (id) {
+            document.getElementById('item-id').value = id;
+            document.getElementById('name').value = name;
+            document.getElementById('price').value = price;
+            document.getElementById('stock').value = stock;
+        }
+
+        document.getElementById('item-form').addEventListener('submit', async event => {
+            event.preventDefault();
+            const id = document.getElementById('item-id').value;
+            const name = document.getElementById('name').value;
+            const price = document.getElementById('price').value;
+            const stock = document.getElementById('stock').value;
+            const category = document.getElementById('category').value;
+
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `/api/items/${id}` : '/api/items';
+            const res = await fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, price, stock, category })
+            });
+
+            if (res.ok) {
+                window.location.href = `${category}.html`;
+            } else {
+                alert('물품 저장 중 오류가 발생했습니다.');
+            }
+        });
+    </script>
+</body>
+</html>
