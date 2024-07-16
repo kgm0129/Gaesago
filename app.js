@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = mysql.createConnection({
   host: 'svc.sel5.cloudtype.app',
+  port: 30034,
   user: 'root',
   password: 'kk00998877.',
   database: 'store_inventory'
@@ -22,9 +23,7 @@ db.connect((err) => {
   console.log('MySQL Connected...');
 });
 
-
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 app.get('/api/items', (req, res) => {
   const category = req.query.category;
@@ -56,7 +55,6 @@ app.post('/api/items', (req, res) => {
   });
 });
 
-
 app.delete('/api/items/:id', (req, res) => {
   const itemId = req.params.id;
   const sql = 'DELETE FROM items WHERE id = ?';
@@ -67,7 +65,6 @@ app.delete('/api/items/:id', (req, res) => {
     res.send('Item deleted...');
   });
 });
-
 
 app.put('/api/items/:id', (req, res) => {
   const itemId = req.params.id;
@@ -85,8 +82,6 @@ app.put('/api/items/:id', (req, res) => {
     res.send('Item updated...');
   });
 });
-
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
