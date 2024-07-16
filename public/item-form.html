@@ -17,7 +17,11 @@
             <input type="hidden" id="item-id">
             <input type="text" id="name" placeholder="이름" required>
             <input type="number" id="price" placeholder="가격" required>
-            <input type="number" id="stock" placeholder="재고량" required>
+            <div class="stock-container">
+                <button type="button" id="decrease-stock">-</button>
+                <input type="number" id="stock" placeholder="재고량" required>
+                <button type="button" id="increase-stock">+</button>
+            </div>
             <input type="hidden" id="category">
             <button type="submit">저장</button>
         </form>
@@ -38,6 +42,19 @@
             document.getElementById('price').value = price;
             document.getElementById('stock').value = stock;
         }
+
+        document.getElementById('decrease-stock').addEventListener('click', () => {
+            const stockInput = document.getElementById('stock');
+            const currentValue = parseInt(stockInput.value) || 0;
+            if (currentValue > 0) {
+                stockInput.value = currentValue - 1;
+            }
+        });
+
+        document.getElementById('increase-stock').addEventListener('click', () => {
+            const stockInput = document.getElementById('stock');
+            stockInput.value = (parseInt(stockInput.value) || 0) + 1;
+        });
 
         document.getElementById('item-form').addEventListener('submit', async event => {
             event.preventDefault();
